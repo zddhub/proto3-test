@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.tutorial.protos";
+option java_outer_classname = "TestProtos";
+
+message Test {
+  int32 id = 2;
+  string str = 3;
+  repeated int32 arrays = 4;
+  int32 max = 536870911;
+}
+

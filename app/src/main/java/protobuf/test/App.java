@@ -3,12 +3,31 @@
  */
 package protobuf.test;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import com.example.tutorial.protos.Test;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
+
+public class App {
+    public static void main(String[] args) throws IOException {
+    Test test1 = Test.newBuilder()
+//            .setId(150)
+            .setMax(150)
+            .build();
+
+        System.out.println("Output directory" + Paths.get("..").toAbsolutePath());
+        System.out.println(test1.toString());
+
+        FileOutputStream output = new FileOutputStream(Paths.get("..", "output").toString());
+
+        output.write(test1.toByteArray());
+        output.close();
+
+        FileInputStream input = new FileInputStream(Paths.get("..", "output").toString());
+        Test test2 =  Test.parseFrom(input);
+        input.close();
+        System.out.println(test2.toString());
     }
 }
