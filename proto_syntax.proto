@@ -1,0 +1,38 @@
+syntax = "proto3"; // 1. Set proto3, default is proto2
+
+option java_multiple_files = true;
+option java_package = "com.zddhub.proto";
+option java_outer_classname = "ProtoSyntax";
+
+message Message { // 2. Define data struct - message
+  int32 id = 1; // 3. Define field id, its type is int32. Use minimum field number(1)
+  string str = 3; // 4. Define string
+  repeated int64 arrays = 4; // 5. Define int64 arrays，length >= 0
+
+  enum Answer { // 6. Define enum
+    YES = 0; // 7. The first number of enum field must be 0
+    NO = 1;
+  }
+  Answer answer = 16;
+
+  message InnerMessage {  // 8. Define nested message
+    float test_float = 1; // 9. Define test_float. New message, field number can start from 1 again.
+    map<string, string> map = 2; // 10. Define map
+  }
+  InnerMessage inner_message = 300;
+
+  oneof test_oneof { // 11. There are cases, wherein only one field at-most might be present as part of the message.
+                     //     OneOf messages can't be repeated.
+    bool is_true = 5; // 12. Still belongs to Message, shares field number with Message
+    bytes bytes = 6;  // 13. bytes
+  }
+
+  int32 max_field_number = 536870911; // 14. Use maximum field number.
+}
+
+message Author {
+  string name = 1;
+  int32 age = 2;
+  string blog = 3;
+  double income = 4;
+}

@@ -3,7 +3,8 @@
  */
 package protobuf.test;
 
-import com.example.tutorial.protos.Test;
+import com.zddhub.proto.Message;
+import com.zddhub.proto.Author;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,22 +13,59 @@ import java.nio.file.Paths;
 
 public class App {
     public static void main(String[] args) throws IOException {
-    Test test1 = Test.newBuilder()
-//            .setId(150)
-            .setMax(150)
-            .build();
+        test_message();
+        test_author();
+    }
+
+    public static void test_message() throws IOException {
+        Message test1 = Message.newBuilder()
+                .setId(27)
+                .setStr("Hello World")
+                .addArrays(1)
+                .addArrays(2)
+                .setAnswer(Message.Answer.NO)
+                .setInnerMessage(
+                        Message.InnerMessage.newBuilder()
+                                .setTestFloat(11.24f)
+                                .build()
+                )
+                .setIsTrue(false)
+                .setMaxFieldNumber(18)
+                .build();
 
         System.out.println("Output directory" + Paths.get("..").toAbsolutePath());
         System.out.println(test1.toString());
 
-        FileOutputStream output = new FileOutputStream(Paths.get("..", "output").toString());
+        FileOutputStream output = new FileOutputStream(Paths.get("..", "output-message").toString());
 
         output.write(test1.toByteArray());
         output.close();
 
-        FileInputStream input = new FileInputStream(Paths.get("..", "output").toString());
-        Test test2 =  Test.parseFrom(input);
+        FileInputStream input = new FileInputStream(Paths.get("..", "output-message").toString());
+        Message test2 =  Message.parseFrom(input);
         input.close();
         System.out.println(test2.toString());
+    }
+
+    public static void test_author() throws IOException {
+        Author author = Author.newBuilder()
+                .setName("zddhub")
+                .setAge(18)
+                .setBlog("https://zddhub.com")
+                .setIncome(18.125)
+                .build();
+
+        System.out.println("Output directory" + Paths.get("..").toAbsolutePath());
+        System.out.println(author.toString());
+
+        FileOutputStream output = new FileOutputStream(Paths.get("..", "output-author").toString());
+
+        output.write(author.toByteArray());
+        output.close();
+
+        FileInputStream input = new FileInputStream(Paths.get("..", "output-author").toString());
+        Author author2 =  Author.parseFrom(input);
+        input.close();
+        System.out.println(author2.toString());
     }
 }
